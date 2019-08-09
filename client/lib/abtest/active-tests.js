@@ -161,4 +161,12 @@ export default {
 		defaultVariation: 'control',
 		allowExistingUsers: true,
 	},
+	placesApiInCheckout: {
+		datestamp: '20190819',
+		variations: {
+			original: 50,
+			placesApi: 50,
+		},
+		defaultVariation: 'original',
+	},
 };
