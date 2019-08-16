@@ -16,7 +16,6 @@ import { getSiteBySlug } from 'state/sites/selectors';
 import { getSelectedSite } from 'state/ui/selectors';
 import GSuiteNudge from './gsuite-nudge';
 import CheckoutContainer from './checkout/checkout-container';
-import CartData from 'components/data/cart';
 import CheckoutPendingComponent from './checkout-thank-you/pending';
 import CheckoutThankYouComponent from './checkout-thank-you';
 import UpsellNudge from './upsell-nudge';
