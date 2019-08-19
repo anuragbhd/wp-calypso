@@ -1,5 +1,3 @@
-/** @format */
-
 /**
  * External dependencies
  */
@@ -21,7 +19,7 @@ import {
 	SIGNUP_PROGRESS_SAVE_STEP,
 	SIGNUP_PROGRESS_SUBMIT_STEP,
 } from 'state/action-types';
-import { createReducer } from 'state/utils';
+import { createReducerWithValidation } from 'state/utils';
 import { schema } from './schema';
 import userFactory from 'lib/user';
 
@@ -121,7 +119,7 @@ function updateStep( state, newStep ) {
 //
 // Reducer export
 //
-export default createReducer(
+export default createReducerWithValidation(
 	[],
 	{
 		[ SIGNUP_COMPLETE_RESET ]: overwriteSteps,
