@@ -359,6 +359,18 @@ class DomainsStep extends React.Component {
 		);
 	}
 
+	getInitialQuery = () => {
+		const fromQueryObject = get( this.props, 'queryObject.new', '' );
+
+		if ( fromQueryObject ) {
+			return fromQueryObject;
+		}
+
+		const siteTitle = get( this.props, 'signupDependencies.siteTitle', '' );
+
+		return siteTitle;
+	};
+
 	domainForm = () => {
 		let initialState = {};
 		if ( this.state ) {
@@ -368,8 +380,8 @@ class DomainsStep extends React.Component {
 			initialState = this.props.step.domainForm;
 		}
 
-		// If it's the first load, rerun the search with whatever we get from the query param
-		const initialQuery = get( this.props, 'queryObject.new', '' );
+		const initialQuery = this.getInitialQuery();
+
 		if (
 			// If we landed here from /domains Search
 			( initialQuery && this.searchOnInitialRender ) ||
