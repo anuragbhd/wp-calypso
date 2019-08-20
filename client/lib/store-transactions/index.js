@@ -549,4 +549,11 @@ export function storedCardPayment( storedCard ) {
 	};
 }
 
+export function webPayment( newCardDetails ) {
+	return {
+		paymentMethod: 'WPCOM_Billing_Web_Payment',
+		newCardDetails: newCardDetails || {},
+	};
+}
+
 export const fullCreditsPayment = { paymentMethod: 'WPCOM_Billing_WPCOM' };
