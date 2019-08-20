@@ -319,7 +319,7 @@
 		"prettier": "https://github.com/Automattic/wp-prettier/releases/download/wp-1.17.0/wp-prettier-1.17.0.tgz",
 		"react-test-renderer": "16.8.6",
 		"readline-sync": "1.4.9",
-		"replace": "1.1.0",
+		"replace": "1.1.1",
 		"rimraf": "2.7.0",
 		"sinon": "7.4.1",
 		"sinon-chai": "3.3.0",
