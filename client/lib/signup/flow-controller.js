@@ -32,12 +32,7 @@ import { isUserLoggedIn } from 'state/current-user/selectors';
 import { getSignupProgress } from 'state/signup/progress/selectors';
 import { getSignupDependencyStore } from 'state/signup/dependency-store/selectors';
 import { resetSignup, updateDependencies } from 'state/signup/actions';
-import {
-	completeSignupStep,
-	invalidateStep,
-	processStep,
-	removeUnneededSteps,
-} from 'state/signup/progress/actions';
+import { completeSignupStep, invalidateStep, processStep } from 'state/signup/progress/actions';
 
 function progressStoreListener( reduxStore, callback ) {
 	let prevState = getSignupProgress( reduxStore.getState() );
@@ -313,7 +308,6 @@ assign( SignupFlowController.prototype, {
 		flows.resetExcludedSteps();
 		this._flowName = flowName;
 		this._flow = flows.getFlow( flowName );
-		this._reduxStore.dispatch( removeUnneededSteps( this._flowName ) );
 	},
 } );
 
