@@ -18,6 +18,9 @@ import TemplateSelectorControl from './components/template-selector-control';
 import TemplateSelectorPreview from './components/template-selector-preview';
 import { trackDismiss, trackSelection, trackView, initializeWithIdentity } from './utils/tracking';
 
+// Load config passed from backend.
+const { siteInformation = {} } = window.starterPageTemplatesConfig || {};
+
 class PageTemplateModal extends Component {
 	state = {
 		isLoading: false,
@@ -93,6 +96,7 @@ class PageTemplateModal extends Component {
 							<TemplateSelectorControl
 								label={ __( 'Template', 'full-site-editing' ) }
 								templates={ this.props.templates }
+								siteInformation={ siteInformation }
 								onTemplateSelect={ this.focusTemplate }
 								// onTemplateFocus={ this.focusTemplate }
 								useDynamicPreview={ true }

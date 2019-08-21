@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { isEmpty, noop } from 'lodash';
+import { isEmpty, noop, isArray } from 'lodash';
 import classnames from 'classnames';
 
 /**
@@ -17,21 +17,19 @@ import { memo } from '@wordpress/element';
 import TemplateSelectorItem from './template-selector-item';
 import replacePlaceholders from '../utils/replace-placeholders';
 
-// Load config passed from backend.
-const { siteInformation = {} } = window.starterPageTemplatesConfig;
-
-const TemplateSelectorControl = ( {
+export const TemplateSelectorControl = ( {
 	label,
 	className,
 	help,
 	instanceId,
 	templates = [],
+	siteInformation = {},
 	useDynamicPreview = false,
 	numBlocksInPreview,
 	onTemplateSelect = noop,
 	onTemplateFocus = noop,
 } ) => {
-	if ( isEmpty( templates ) ) {
+	if ( isEmpty( templates ) || ! isArray( templates ) ) {
 		return null;
 	}
 

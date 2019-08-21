@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { debounce } from 'lodash';
+import { debounce, isNil } from 'lodash';
 
 /**
  * Internal dependencies
@@ -43,6 +43,15 @@ const TemplateSelectorItem = props => {
 		onFocus( value, label, blocks );
 	}, ON_FOCUS_DELAY );
 
+	// Required props
+	if ( ! id || ! value ) {
+		return null;
+	}
+
+	if ( ! useDynamicPreview && isNil( staticPreviewImg ) ) {
+		return null;
+	}
+
 	// Define static or dynamic preview.
 	const innerPreview = useDynamicPreview ? (
 		<Disabled>
@@ -65,7 +74,6 @@ const TemplateSelectorItem = props => {
 			id={ `${ id }-${ value }` }
 			className="template-selector-item__label"
 			value={ value }
-			// onFocus={ onFocusHandler }
 			onMouseEnter={ onFocusHandler }
 			onMouseLeave={ onFocusHandler.cancel }
 			onClick={ () => onSelect( value, label, blocks ) }
