@@ -175,24 +175,13 @@ function WebPayButton( {
 	onSubmit,
 	translate,
 } ) {
-	// We have to memoize these to prevent re-creating the paymentRequest
 	const { currency, total_cost, sub_total, total_tax } = cart;
-	const displayItems = useMemo( () => getDisplayItems( { translate, sub_total, total_tax } ), [
-		translate,
-		sub_total,
-		total_tax,
-	] );
 	const shouldDisplayItems = shouldShowTax( cart );
-	const paymentRequestOptions = useMemo(
-		() => ( {
-			country: countryCode || 'US',
-			currency: currency.toLowerCase(),
-			displayItems: shouldDisplayItems ? displayItems : [],
-			total: getPaymentRequestTotalFromCart( { total_cost }, translate ),
-			...PAYMENT_REQUEST_OPTIONS,
-		} ),
-		[ translate, countryCode, currency, total_cost, displayItems, shouldDisplayItems ]
-	);
+	useEffect( () => {
+		stripe && setStripeObject( stripe, stripeConfiguration );
+	}, [ stripe, stripeConfiguration ] );
+
+	// We have to memoize these to prevent re-creating the paymentRequest
 	const callback = useMemo(
 		() => paymentMethodResponse =>
 			completePaymentMethodTransaction( {
@@ -203,15 +192,21 @@ function WebPayButton( {
 			} ),
 		[ countryCode, postalCode, onSubmit ]
 	);
-	useEffect( () => {
-		debug( 'setting stripe data in store' );
-		stripe && setStripeObject( stripe, stripeConfiguration );
-	}, [ stripe, stripeConfiguration ] );
+	const paymentRequestOptions = usePaymentRequestOptions( {
+		translate,
+		sub_total,
+		total_tax,
+		total_cost,
+		countryCode,
+		currency,
+		shouldDisplayItems,
+	} );
 	const { paymentRequest, canMakePayment } = useStripePaymentRequest(
 		stripe,
 		paymentRequestOptions,
 		callback
 	);
+
 	if ( isStripeLoading ) {
 		return <LoadingPaymentRequestButton translate={ translate } />;
 	}
@@ -222,6 +217,33 @@ function WebPayButton( {
 		return <LoadingPaymentRequestButton translate={ translate } />;
 	}
 	return <PaymentRequestButtonElement paymentRequest={ paymentRequest } />;
+}
+
+function usePaymentRequestOptions( {
+	translate,
+	sub_total,
+	total_tax,
+	total_cost,
+	countryCode,
+	currency,
+	shouldDisplayItems,
+} ) {
+	const displayItems = useMemo( () => getDisplayItems( { translate, sub_total, total_tax } ), [
+		translate,
+		sub_total,
+		total_tax,
+	] );
+	const paymentRequestOptions = useMemo(
+		() => ( {
+			country: countryCode || 'US',
+			currency: currency.toLowerCase(),
+			displayItems: shouldDisplayItems ? displayItems : [],
+			total: getPaymentRequestTotalFromCart( { total_cost }, translate ),
+			...PAYMENT_REQUEST_OPTIONS,
+		} ),
+		[ translate, countryCode, currency, total_cost, displayItems, shouldDisplayItems ]
+	);
+	return paymentRequestOptions;
 }
 
 function useStripePaymentRequest( stripe, paymentRequestOptions, callback ) {
