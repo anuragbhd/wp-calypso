@@ -216,6 +216,19 @@ function WebPayButton( {
 	return <PaymentRequestButtonElement paymentRequest={ paymentRequest } />;
 }
 
+WebPayButton.propTypes = {
+	stripe: PropTypes.object,
+	countryCode: PropTypes.string,
+	postalCode: PropTypes.string,
+	cart: PropTypes.shape( {
+		currency: PropTypes.string.isRequired,
+		total_cost: PropTypes.number.isRequired,
+		products: PropTypes.array.isRequired,
+	} ).isRequired,
+	onSubmit: PropTypes.func.isRequired,
+	translate: PropTypes.func.isRequired,
+};
+
 function usePaymentRequestOptions( {
 	translate,
 	sub_total,
@@ -293,19 +306,6 @@ function completePaymentMethodTransaction( {
 
 	complete( 'success' );
 }
-
-WebPayButton.propTypes = {
-	stripe: PropTypes.object,
-	countryCode: PropTypes.string,
-	postalCode: PropTypes.string,
-	cart: PropTypes.shape( {
-		currency: PropTypes.string.isRequired,
-		total_cost: PropTypes.number.isRequired,
-		products: PropTypes.array.isRequired,
-	} ).isRequired,
-	onSubmit: PropTypes.func.isRequired,
-	translate: PropTypes.func.isRequired,
-};
 
 function getPaymentTypeFromPaymentMethod( paymentMethod ) {
 	switch ( paymentMethod ) {
