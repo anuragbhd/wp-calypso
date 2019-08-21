@@ -207,13 +207,10 @@ function WebPayButton( {
 		callback
 	);
 
-	if ( isStripeLoading ) {
-		return <LoadingPaymentRequestButton translate={ translate } />;
-	}
-	if ( ! stripe ) {
+	if ( ! stripe && ! isStripeLoading ) {
 		throw new Error( 'Stripe is required but not available' );
 	}
-	if ( ! canMakePayment ) {
+	if ( isStripeLoading || ! canMakePayment ) {
 		return <LoadingPaymentRequestButton translate={ translate } />;
 	}
 	return <PaymentRequestButtonElement paymentRequest={ paymentRequest } />;
